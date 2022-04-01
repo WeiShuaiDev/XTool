@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">XTool</string>
+    <string name="null_pointer_exception">Null Pointer</string>
+    <string name="index_out_of_bound_exception">IndexOutOfBound</string>
+    <string name="class_cast_exception">ClassCast Exeption</string>
+    <string name="array_store_exception">ArrayStoreException</string>
+    <string name="network_error">Network Error</string>
+    <string name="app_log">App Log</string>
+    <string name="rubbles">Rubbles</string>
+
+    <string name="open_network_list">Open network list</string>
+    <string name="open_crash_list">Open crash list</string>
+</resources>

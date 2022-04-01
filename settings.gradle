@@ -1,0 +1,3 @@
+rootProject.name = "XTool"
+include ':app'
+include ':tool'
