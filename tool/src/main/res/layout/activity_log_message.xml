@@ -25,24 +25,19 @@
 
         </com.google.android.material.appbar.AppBarLayout>
 
-        <HorizontalScrollView
+        <TextView
+            android:id="@+id/logMessage"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:id="@+id/logMessage"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:textColor="#ff0000" />
-        </HorizontalScrollView>
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:textColor="#ff0000" />
 
         <TextView
             android:id="@+id/appInfo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="10dp"
             android:layout_marginTop="10dp"
-            android:textColor="@color/black"/>
+            android:padding="10dp"
+            android:textColor="@color/black" />
     </LinearLayout>
 </ScrollView>

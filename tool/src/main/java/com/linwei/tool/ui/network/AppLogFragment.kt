@@ -1,8 +1,6 @@
 package com.linwei.tool.ui.network
 
 import android.content.Context
-import com.linwei.tool.adapter.CrashLogAdapter
-import androidx.recyclerview.widget.RecyclerView
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup

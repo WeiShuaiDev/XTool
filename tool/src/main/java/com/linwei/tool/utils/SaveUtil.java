@@ -21,8 +21,11 @@ public class SaveUtil {
         return dateFormat.format(new Date());
     }
 
+    private static final SnowFlake showFlake = new SnowFlake(2, 3);
+
     private static String getFileName(String suffix, String extension) {
-        return getLogTime() + suffix + extension;
+        long random = showFlake.nextId();
+        return random + suffix + extension;
     }
 
     /**

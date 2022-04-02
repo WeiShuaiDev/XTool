@@ -8,11 +8,11 @@ import java.util.Date;
 
 public class LoggerUtils {
 
-    private static final String TAG = "Logger";
+    private static final String LOGGER = "Logger";
 
     private static void save(String logType, String msg) {
         String createAt = SaveUtil.getLogTime();
-        AppLog appLog = new AppLog(TAG, logType, createAt, msg);
+        AppLog appLog = new AppLog(LOGGER, logType, createAt, msg);
         ThreadManager.runOnThread(() -> {
             String reportPath = XToolReporter.getNetworkReportPath();
             String log = new Gson().toJson(appLog);

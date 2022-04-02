@@ -12,8 +12,10 @@ import androidx.core.content.ContextCompat;
 
 import android.text.TextUtils;
 
+import com.google.gson.Gson;
 import com.linwei.tool.R;
 import com.linwei.tool.XToolReporter;
+import com.linwei.tool.bean.CrashLog;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -23,6 +25,10 @@ import static android.content.Context.NOTIFICATION_SERVICE;
 
 public class CrashUtil {
 
+    private static final String CRASH = "CRASH";
+
+    private static final String EXCEPTION = "EXCEPTION";
+
     private CrashUtil() {
         //this class is not publicly instantiable
     }
@@ -30,20 +36,28 @@ public class CrashUtil {
     public static void saveCrashReport(final Throwable throwable) {
         String message = throwable.getLocalizedMessage();
         if (!TextUtils.isEmpty(message)) {
-            String reportPath = XToolReporter.getCrashReportPath();
-            SaveUtil.save(reportPath, Constants.CRASH_REPORT_DIR, Constants.CRASH_SUFFIX,
-                    Constants.FILE_EXTENSION, throwable.getLocalizedMessage());
-            showNotification(throwable.getLocalizedMessage(), true);
+            String createAt = SaveUtil.getLogTime();
+            CrashLog crashLog = new CrashLog(CRASH, createAt, message);
+            ThreadManager.runOnThread(() -> {
+                String reportPath = XToolReporter.getCrashReportPath();
+                String log = new Gson().toJson(crashLog);
+                SaveUtil.save(reportPath, Constants.CRASH_REPORT_DIR, Constants.CRASH_SUFFIX,
+                        Constants.FILE_EXTENSION, log);
+                showNotification(throwable.getLocalizedMessage(), true);
+            });
         }
     }
 
     public static void logException(final Exception exception) {
-        String message = exception.getLocalizedMessage();
+        String message = getStackTrace(exception);
         if (!TextUtils.isEmpty(message)) {
+            String createAt = SaveUtil.getLogTime();
+            CrashLog crashLog = new CrashLog(EXCEPTION, createAt, message);
             ThreadManager.runOnThread(() -> {
                 String reportPath = XToolReporter.getCrashReportPath();
+                String log = new Gson().toJson(crashLog);
                 SaveUtil.save(reportPath, Constants.CRASH_REPORT_DIR, Constants.EXCEPTION_SUFFIX,
-                        Constants.FILE_EXTENSION, getStackTrace(exception));
+                        Constants.FILE_EXTENSION, log);
                 showNotification(exception.getLocalizedMessage(), false);
             });
         }

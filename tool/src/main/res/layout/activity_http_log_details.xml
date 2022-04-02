@@ -3,7 +3,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -72,9 +71,8 @@
                 <ImageView
                     android:id="@+id/code_img"
                     android:layout_width="5dp"
-                    android:layout_height="50dp"
+                    android:layout_height="25dp"
                     android:layout_alignParentLeft="true"
-                    android:layout_centerVertical="true"
                     android:layout_marginLeft="8dp"
                     android:background="@android:color/white" />
 

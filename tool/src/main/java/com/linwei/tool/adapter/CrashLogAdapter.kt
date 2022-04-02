@@ -7,7 +7,10 @@ import android.view.LayoutInflater
 import android.widget.TextView
 import android.content.Intent
 import android.view.View
+import com.google.gson.Gson
 import com.linwei.tool.R
+import com.linwei.tool.bean.CrashLog
+import com.linwei.tool.bean.HttpLog
 import com.linwei.tool.ui.crash.LogMessageActivity
 import com.linwei.tool.utils.FileUtils
 import java.io.File
@@ -36,17 +39,18 @@ class CrashLogAdapter(private val context: Context, private var crashFileList: A
 
     private class CrashLogViewHolder(itemView: View) :
         RecyclerView.ViewHolder(itemView) {
-        private val textViewTitle: TextView = itemView.findViewById<View>(R.id.textViewTitle) as TextView
-        private val messageLogMsg: TextView = itemView.findViewById<View>(R.id.textViewMsg) as TextView
-        private val textViewTime: TextView = itemView.findViewById<View>(R.id.textViewTime) as TextView
-
+        private val textViewTitle: TextView = itemView.findViewById(R.id.textViewTitle)
+        private val messageLogMsg: TextView = itemView.findViewById(R.id.textViewMsg)
+        private val textViewTime: TextView = itemView.findViewById(R.id.textViewTime)
 
         fun setUpViewHolder(context: Context, file: File) {
             val filePath = file.absolutePath
-            textViewTime.text = file.name.replace("[a-zA-Z_.]".toRegex(), "")
-            textViewTitle.text = FileUtils.readFirstLineFromFile(File(filePath))
-            messageLogMsg.visibility=View.GONE
-            textViewTime.visibility=View.VISIBLE
+            val jsonData = FileUtils.readFromFile(file)
+            val crashLog = Gson().fromJson(jsonData, CrashLog::class.java)
+            textViewTime.text = crashLog.createdAt
+            textViewTitle.text =crashLog.message
+            messageLogMsg.visibility = View.GONE
+            textViewTime.visibility = View.VISIBLE
             itemView.setOnClickListener {
                 val intent = Intent(context, LogMessageActivity::class.java)
                 intent.putExtra("LogMessage", filePath)

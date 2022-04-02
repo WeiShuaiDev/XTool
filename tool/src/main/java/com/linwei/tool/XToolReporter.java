@@ -20,7 +20,6 @@ import com.linwei.tool.utils.CrashReporterExceptionHandler;
 import com.linwei.tool.utils.CrashUtil;
 import com.linwei.tool.utils.bubble.BubbleLayout;
 import com.linwei.tool.utils.bubble.BubblesManager;
-import com.linwei.tool.utils.bubble.OnInitializedCallback;
 
 public class XToolReporter {
 
@@ -72,6 +71,8 @@ public class XToolReporter {
                     })
                     .build();
             bubblesManager.initialize();
+        }else{
+            enableAndzu();
         }
     }
 
@@ -102,7 +103,6 @@ public class XToolReporter {
 
         @Override
         public void onActivityStarted(Activity activity) {
-            System.out.println("onActivityStarted");
             enableAndzu();
             if (activity instanceof ChooseModuleActivity||activity instanceof NetworkReporterActivity ||
                     activity instanceof AppLogDetailsActivity||activity instanceof HttpLogDetailsActivity||
@@ -116,10 +116,17 @@ public class XToolReporter {
 
         @Override
         public void onActivityResumed(Activity activity) {
+            enableAndzu();
+            if (activity instanceof ChooseModuleActivity||activity instanceof NetworkReporterActivity ||
+                    activity instanceof AppLogDetailsActivity||activity instanceof HttpLogDetailsActivity||
+                    activity instanceof LogMessageActivity||activity instanceof CrashReporterActivity) {
+                disableAndzu();
+            }
         }
 
         @Override
         public void onActivityPaused(Activity activity) {
+            disableAndzu();
         }
 
         @Override
@@ -131,7 +138,6 @@ public class XToolReporter {
 
         @Override
         public void onActivitySaveInstanceState(Activity activity, Bundle bundle) {
-
         }
 
         @Override
@@ -173,7 +179,6 @@ public class XToolReporter {
     public static boolean isNotificationEnabled() {
         return isNotificationEnabled;
     }
-
 
     public static void disableNotification() {
         isNotificationEnabled = false;
