@@ -9,7 +9,7 @@ android {
 
     defaultConfig {
         applicationId "com.linwei.xtool"
-        minSdkVersion 21
+        minSdkVersion 16
         targetSdkVersion 32
         versionCode 3
         versionName "1.0.2"
