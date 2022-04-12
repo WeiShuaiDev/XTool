@@ -184,6 +184,11 @@ public class XToolReporter {
         isNotificationEnabled = false;
     }
 
+    public static void enableNotification() {
+        isNotificationEnabled = true;
+    }
+
+
     public static void logException(Exception exception) {
         CrashUtil.logException(exception);
     }

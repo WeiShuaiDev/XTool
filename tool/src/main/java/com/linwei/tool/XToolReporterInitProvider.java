@@ -15,6 +15,7 @@ public class XToolReporterInitProvider extends ContentProvider {
     @Override
     public boolean onCreate() {
         XToolReporter.init(getContext());
+        XToolReporter.disableNotification();
         return true;
     }
 
