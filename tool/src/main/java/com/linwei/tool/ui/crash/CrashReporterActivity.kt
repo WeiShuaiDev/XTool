@@ -8,10 +8,11 @@ import android.text.TextUtils
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.TextView
+import androidx.appcompat.widget.Toolbar
 import androidx.appcompat.app.AppCompatActivity
+import androidx.viewpager2.widget.ViewPager2
 import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
 import com.linwei.tool.R
-import com.linwei.tool.databinding.ActivityReporterBinding
 import com.linwei.tool.XToolReporter
 import com.linwei.tool.adapter.CrashViewPagerAdapter
 import com.linwei.tool.utils.Constants
@@ -23,8 +24,10 @@ import com.google.android.material.tabs.TabLayoutMediator
 import java.io.File
 
 
-class CrashReporterActivity: AppCompatActivity() {
-    private lateinit var mBinding: ActivityReporterBinding
+class CrashReporterActivity : AppCompatActivity() {
+    private lateinit var mToolbar: Toolbar
+    private lateinit var mTab: TabLayout
+    private lateinit var mViewpager2: ViewPager2
 
     private var mViewPagerAdapter: CrashViewPagerAdapter? = null
     private var mSelectedTabPosition = 0
@@ -55,12 +58,15 @@ class CrashReporterActivity: AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        mBinding=ActivityReporterBinding.inflate(layoutInflater)
-        setContentView(mBinding.root)
+        setContentView(R.layout.activity_reporter)
+        mToolbar = findViewById<Toolbar>(R.id.toolbar).apply {
+            title = getString(R.string.crash)
+            subtitle = getApplicationName()
+        }
+        setSupportActionBar(mToolbar)
 
-        mBinding.toolbar.title = getString(R.string.crash)
-        mBinding.toolbar.subtitle = getApplicationName()
-        setSupportActionBar(mBinding.toolbar)
+        mTab = findViewById(R.id.tab)
+        mViewpager2 = findViewById(R.id.viewpager2)
 
         setupViewPager()
 
@@ -71,7 +77,8 @@ class CrashReporterActivity: AppCompatActivity() {
         ThreadManager.runOnThread {
             val crashReportPath =
                 if (TextUtils.isEmpty(XToolReporter.getCrashReportPath())) SaveUtil.getDefaultPath(
-                    Constants.CRASH_REPORT_DIR) else XToolReporter.getCrashReportPath()
+                    Constants.CRASH_REPORT_DIR
+                ) else XToolReporter.getCrashReportPath()
             val logs = File(crashReportPath).listFiles()
             for (file in logs) {
                 FileUtils.delete(file)
@@ -80,9 +87,9 @@ class CrashReporterActivity: AppCompatActivity() {
         }
     }
 
-    private fun setupTabLayout(){
+    private fun setupTabLayout() {
         mMediator = TabLayoutMediator(
-            mBinding.tab, mBinding.viewpager2
+            mTab, mViewpager2
         ) { tab, position -> //这里可以自定义TabView
             val tabView = TextView(this)
             val states = arrayOfNulls<IntArray>(2)
@@ -101,15 +108,15 @@ class CrashReporterActivity: AppCompatActivity() {
 
     private fun setupViewPager() {
         mViewPagerAdapter = CrashViewPagerAdapter(this)
-        mBinding.viewpager2.adapter = mViewPagerAdapter
+        mViewpager2.adapter = mViewPagerAdapter
         //viewPager 页面切换监听
-        mBinding.viewpager2.registerOnPageChangeCallback(changeCallback)
+        mViewpager2.registerOnPageChangeCallback(changeCallback)
 
         val intent = intent
         if (intent != null && !intent.getBooleanExtra(Constants.LANDING, false)) {
             mSelectedTabPosition = 0
         }
-        mBinding.viewpager2.currentItem = mSelectedTabPosition
+        mViewpager2.currentItem = mSelectedTabPosition
     }
 
 
@@ -117,9 +124,9 @@ class CrashReporterActivity: AppCompatActivity() {
         override fun onPageSelected(position: Int) {
             mSelectedTabPosition = position
             //可以来设置选中时tab的大小
-            val tabCount: Int = mBinding.tab.tabCount
+            val tabCount: Int = mTab.tabCount
             for (i in 0 until tabCount) {
-                val tab: TabLayout.Tab? = mBinding.tab.getTabAt(i)
+                val tab: TabLayout.Tab? = mTab.getTabAt(i)
                 if (tab != null) {
                     val tabView = tab.customView as TextView
                     if (tab.position == position) {
@@ -144,7 +151,6 @@ class CrashReporterActivity: AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        mBinding.viewpager2.unregisterOnPageChangeCallback(changeCallback)
+        mViewpager2.unregisterOnPageChangeCallback(changeCallback)
     }
-
 }

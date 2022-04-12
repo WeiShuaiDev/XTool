@@ -40,7 +40,8 @@
             android:text="@string/crash"
             android:layout_marginEnd="5dp"
             android:textColor="@color/black"
-            android:textSize="18sp"/>
+            android:textSize="18sp"
+            android:layout_marginRight="5dp" />
 
         <Button
             android:id="@+id/network"
@@ -52,7 +53,8 @@
             android:gravity="center"
             android:text="@string/network"
             android:textColor="@color/black"
-            android:textSize="18sp"/>
+            android:textSize="18sp"
+            android:layout_marginLeft="5dp" />
 
     </LinearLayout>
 </LinearLayout>

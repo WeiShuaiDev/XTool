@@ -9,9 +9,10 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
+import androidx.viewpager2.widget.ViewPager2
 import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
 import com.linwei.tool.R
-import com.linwei.tool.databinding.ActivityReporterBinding
 import com.linwei.tool.XToolReporter
 import com.linwei.tool.adapter.NetworkViewPagerAdapter
 import com.linwei.tool.utils.Constants
@@ -22,9 +23,10 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import java.io.File
 
-
 class NetworkReporterActivity: AppCompatActivity() {
-    private lateinit var mBinding: ActivityReporterBinding
+    private lateinit var mToolbar: Toolbar
+    private lateinit var mTab: TabLayout
+    private lateinit var mViewpager2: ViewPager2
 
     private var mViewPagerAdapter: NetworkViewPagerAdapter? = null
     private var mSelectedTabPosition = 0
@@ -55,12 +57,16 @@ class NetworkReporterActivity: AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        mBinding= ActivityReporterBinding.inflate(layoutInflater)
-        setContentView(mBinding.root)
+        setContentView(R.layout.activity_reporter)
 
-        mBinding.toolbar.title = getString(R.string.network)
-        mBinding.toolbar.subtitle = getApplicationName()
-        setSupportActionBar(mBinding.toolbar)
+        mToolbar = findViewById<Toolbar>(R.id.toolbar).apply {
+            title = getString(R.string.network)
+            subtitle = getApplicationName()
+        }
+        setSupportActionBar(mToolbar)
+
+        mTab = findViewById(R.id.tab)
+        mViewpager2 = findViewById(R.id.viewpager2)
 
         setupViewPager()
 
@@ -82,7 +88,7 @@ class NetworkReporterActivity: AppCompatActivity() {
 
     private fun setupTabLayout(){
         mMediator = TabLayoutMediator(
-            mBinding.tab, mBinding.viewpager2
+            mTab, mViewpager2
         ) { tab, position -> //这里可以自定义TabView
             val tabView = TextView(this)
             val states = arrayOfNulls<IntArray>(2)
@@ -101,15 +107,15 @@ class NetworkReporterActivity: AppCompatActivity() {
 
     private fun setupViewPager() {
         mViewPagerAdapter = NetworkViewPagerAdapter(this)
-        mBinding.viewpager2.adapter = mViewPagerAdapter
+        mViewpager2.adapter = mViewPagerAdapter
         //viewPager 页面切换监听
-        mBinding.viewpager2.registerOnPageChangeCallback(changeCallback)
+        mViewpager2.registerOnPageChangeCallback(changeCallback)
 
         val intent = intent
         if (intent != null && !intent.getBooleanExtra(Constants.LANDING, false)) {
             mSelectedTabPosition = 0
         }
-        mBinding.viewpager2.currentItem = mSelectedTabPosition
+        mViewpager2.currentItem = mSelectedTabPosition
     }
 
 
@@ -117,9 +123,9 @@ class NetworkReporterActivity: AppCompatActivity() {
         override fun onPageSelected(position: Int) {
             mSelectedTabPosition = position
             //可以来设置选中时tab的大小
-            val tabCount: Int = mBinding.tab.tabCount
+            val tabCount: Int = mTab.tabCount
             for (i in 0 until tabCount) {
-                val tab: TabLayout.Tab? = mBinding.tab.getTabAt(i)
+                val tab: TabLayout.Tab? = mTab.getTabAt(i)
                 if (tab != null) {
                     val tabView = tab.customView as TextView
                     if (tab.position == position) {
@@ -144,7 +150,7 @@ class NetworkReporterActivity: AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        mBinding.viewpager2.unregisterOnPageChangeCallback(changeCallback)
+        mViewpager2.unregisterOnPageChangeCallback(changeCallback)
     }
 
 }

@@ -10,7 +10,6 @@ import android.view.View
 import com.google.gson.Gson
 import com.linwei.tool.R
 import com.linwei.tool.bean.CrashLog
-import com.linwei.tool.bean.HttpLog
 import com.linwei.tool.ui.crash.LogMessageActivity
 import com.linwei.tool.utils.FileUtils
 import java.io.File

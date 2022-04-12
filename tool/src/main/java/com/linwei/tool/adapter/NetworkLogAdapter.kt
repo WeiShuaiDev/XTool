@@ -7,7 +7,6 @@ import android.view.LayoutInflater
 import android.widget.TextView
 import android.content.Intent
 import android.view.View
-import androidx.core.content.ContextCompat
 import com.google.gson.Gson
 import com.linwei.tool.R
 import com.linwei.tool.bean.AppLog

@@ -1,7 +1,6 @@
 package com.linwei.tool.ui.network
 
 import android.content.Context
-import androidx.recyclerview.widget.RecyclerView
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -9,8 +8,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.linwei.tool.XToolReporter
 import android.text.TextUtils
 import android.view.View
+import android.widget.TextView
 import androidx.fragment.app.Fragment
-import com.linwei.tool.databinding.FragmentLogBinding
+import androidx.recyclerview.widget.RecyclerView
+import com.linwei.tool.R
 import com.linwei.tool.adapter.NetworkLogAdapter
 import com.linwei.tool.utils.Constants
 import com.linwei.tool.utils.SaveUtil
@@ -20,8 +21,11 @@ import java.util.*
 
 class HttpLogFragment : Fragment() {
 
-    private lateinit var mHttptLogBinding: FragmentLogBinding
     private lateinit var mContext: Context
+
+    private lateinit var mRecyclerView: RecyclerView
+
+    private lateinit var mTextViewState: TextView
 
     private var mLogAdapter: NetworkLogAdapter? = null
 
@@ -35,8 +39,13 @@ class HttpLogFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        mHttptLogBinding = FragmentLogBinding.inflate(inflater, container, false)
-        return mHttptLogBinding.root
+        return inflater.inflate(R.layout.fragment_log, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        mRecyclerView = view.findViewById(R.id.recyclerView)
+        mTextViewState = view.findViewById(R.id.textViewState)
     }
 
     override fun onResume() {
@@ -46,29 +55,29 @@ class HttpLogFragment : Fragment() {
 
     private fun loadAdapter(context: Context) {
         mLogAdapter = NetworkLogAdapter(context, allNetwork)
-        mHttptLogBinding.recyclerView.apply {
+        mRecyclerView.apply {
             layoutManager =
                 LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             adapter = mLogAdapter
         }
 
         if (allNetwork.size > 0) {
-            mHttptLogBinding.recyclerView.visibility=View.VISIBLE
-            mHttptLogBinding.textViewState.visibility=View.GONE
+            mRecyclerView.visibility=View.VISIBLE
+            mTextViewState.visibility=View.GONE
         } else {
-            mHttptLogBinding.recyclerView.visibility=View.GONE
-            mHttptLogBinding.textViewState.visibility=View.VISIBLE
+            mRecyclerView.visibility=View.GONE
+            mTextViewState.visibility=View.VISIBLE
         }
     }
 
     fun clearLog() {
         if (allNetwork.size > 0) {
             mLogAdapter?.updateList(allNetwork)
-            mHttptLogBinding.recyclerView.visibility=View.VISIBLE
-            mHttptLogBinding.textViewState.visibility=View.GONE
+            mRecyclerView.visibility=View.VISIBLE
+            mTextViewState.visibility=View.GONE
         } else {
-            mHttptLogBinding.recyclerView.visibility=View.GONE
-            mHttptLogBinding.textViewState.visibility=View.VISIBLE
+            mRecyclerView.visibility=View.GONE
+            mTextViewState.visibility=View.VISIBLE
         }
     }
 

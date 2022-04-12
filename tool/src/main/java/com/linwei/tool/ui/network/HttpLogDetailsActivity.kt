@@ -5,47 +5,51 @@ import android.graphics.Color
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.core.content.FileProvider
 import com.google.gson.Gson
 import com.linwei.tool.R
 import com.linwei.tool.bean.HttpLog
-import com.linwei.tool.databinding.ActivityHttpLogDetailsBinding
 import com.linwei.tool.utils.FileUtils
 import java.io.File
 import java.util.*
 
 class HttpLogDetailsActivity : AppCompatActivity() {
-    private lateinit var mBinding: ActivityHttpLogDetailsBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        mBinding = ActivityHttpLogDetailsBinding.inflate(layoutInflater)
-        setContentView(mBinding.root)
+        setContentView(R.layout.activity_http_log_details)
 
-        mBinding.toolbar.title = getString(R.string.http)
-        setSupportActionBar(mBinding.toolbar)
+        setSupportActionBar(findViewById<Toolbar>(R.id.toolbar).apply {
+            title = getString(R.string.http)
+        })
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
 
         val dirPath = intent.getStringExtra("LogMessage")
         dirPath?.let {
             val file = File(dirPath)
             Gson().fromJson(FileUtils.readFromFile(file), HttpLog::class.java)?.apply {
-                mBinding.date.text = FileUtils.dateFormat.format(Date(date))
-                mBinding.url.text = "[${requestType}]${url}"
-                mBinding.code.text = responseCode
-                mBinding.latency.text = String.format("%sms", duration.toInt())
-                mBinding.headers.text = headers
-                mBinding.postData.text = postData
-                mBinding.response.text = responseData
-                mBinding.response.textSize = 15f
+                findViewById<TextView>(R.id.date).text = FileUtils.dateFormat.format(Date(date))
+                findViewById<TextView>(R.id.url).text = "[${requestType}]${url}"
+                findViewById<TextView>(R.id.code).text = responseCode
+                findViewById<TextView>(R.id.latency).text = String.format("%sms", duration.toInt())
+                findViewById<TextView>(R.id.headers).text = headers
+                findViewById<TextView>(R.id.postData).text = postData
+                findViewById<TextView>(R.id.response).apply {
+                    text = responseData
+                    textSize = 15f
+                }
 
-                if (responseCode=="200") {
-                    mBinding.codeImg.setBackgroundColor(Color.parseColor("#0c8918"))
-                    mBinding.code.setTextColor(Color.parseColor("#0c8918"))
+                if (responseCode == "200") {
+                    findViewById<ImageView>(R.id.code_img).setBackgroundColor(Color.parseColor("#0c8918"))
+                    findViewById<TextView>(R.id.code).setTextColor(Color.parseColor("#0c8918"))
                 } else {
-                    mBinding.codeImg.setBackgroundColor(Color.parseColor("#be002f"))
-                    mBinding.code.setTextColor(Color.parseColor("#be002f"))
+                    findViewById<ImageView>(R.id.code_img).setBackgroundColor(Color.parseColor("#be002f"))
+                    findViewById<TextView>(R.id.code).setTextColor(Color.parseColor("#be002f"))
                 }
             }
         }
@@ -80,11 +84,16 @@ class HttpLogDetailsActivity : AppCompatActivity() {
     }
 
     private fun shareCrashReport(filePath: String) {
+        val url: String = findViewById<TextView>(R.id.url).text.toString()
+        val code: String = findViewById<TextView>(R.id.code).text.toString()
+        val postData: String = findViewById<TextView>(R.id.postData).text.toString()
+        val response: String = findViewById<TextView>(R.id.response).text.toString()
+
         val intent = Intent(Intent.ACTION_SEND)
         intent.type = "*/*"
         intent.putExtra(
             Intent.EXTRA_TEXT,
-            "url=${mBinding.url}; code=${mBinding.code}; postData=${mBinding.postData}; body=${mBinding.response}"
+            "url=${url}; code=${code}; postData=${postData}; body=${response}"
         )
         val uriForFile =
             FileProvider.getUriForFile(this, "$packageName.fileprovider", File(filePath))
