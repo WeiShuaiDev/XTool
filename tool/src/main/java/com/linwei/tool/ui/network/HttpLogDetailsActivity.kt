@@ -5,19 +5,25 @@ import android.graphics.Color
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.MotionEvent
+import android.widget.HorizontalScrollView
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.FileProvider
+import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
 import com.linwei.tool.R
 import com.linwei.tool.bean.HttpLog
 import com.linwei.tool.utils.FileUtils
+import com.linwei.tool.view.JsonRecyclerView
 import java.io.File
 import java.util.*
 
 class HttpLogDetailsActivity : AppCompatActivity() {
+
+    private var mHttpLog: HttpLog? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,21 +34,47 @@ class HttpLogDetailsActivity : AppCompatActivity() {
         })
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
+        val recyclerView = findViewById<JsonRecyclerView>(R.id.recyclerView)
+        val scrollView = findViewById<HorizontalScrollView>(R.id.scrollView)
+        recyclerView.setScaleEnable(true)
+        recyclerView.addOnItemTouchListener(object : RecyclerView.OnItemTouchListener {
+            override fun onInterceptTouchEvent(rv: RecyclerView, e: MotionEvent): Boolean {
+                when (e.getAction() and e.getActionMasked()) {
+                    MotionEvent.ACTION_DOWN -> {
+                    }
+                    MotionEvent.ACTION_UP -> {
+                    }
+                    MotionEvent.ACTION_POINTER_UP -> scrollView.requestDisallowInterceptTouchEvent(
+                        false
+                    )
+                    MotionEvent.ACTION_POINTER_DOWN -> scrollView.requestDisallowInterceptTouchEvent(
+                        true
+                    )
+                    MotionEvent.ACTION_MOVE -> {
+                    }
+                }
+                return false
+            }
+
+            override fun onTouchEvent(rv: RecyclerView, e: MotionEvent) {
+            }
+
+            override fun onRequestDisallowInterceptTouchEvent(disallowIntercept: Boolean) {
+            }
+        })
+
 
         val dirPath = intent.getStringExtra("LogMessage")
         dirPath?.let {
             val file = File(dirPath)
-            Gson().fromJson(FileUtils.readFromFile(file), HttpLog::class.java)?.apply {
+            mHttpLog = Gson().fromJson(FileUtils.readFromFile(file), HttpLog::class.java)?.apply {
                 findViewById<TextView>(R.id.date).text = FileUtils.dateFormat.format(Date(date))
                 findViewById<TextView>(R.id.url).text = "[${requestType}]${url}"
                 findViewById<TextView>(R.id.code).text = responseCode
                 findViewById<TextView>(R.id.latency).text = String.format("%sms", duration.toInt())
                 findViewById<TextView>(R.id.headers).text = headers
                 findViewById<TextView>(R.id.postData).text = postData
-                findViewById<TextView>(R.id.response).apply {
-                    text = responseData
-                    textSize = 15f
-                }
+                findViewById<JsonRecyclerView>(R.id.recyclerView).bindJson(responseData)
 
                 if (responseCode == "200") {
                     findViewById<ImageView>(R.id.code_img).setBackgroundColor(Color.parseColor("#0c8918"))
@@ -84,16 +116,11 @@ class HttpLogDetailsActivity : AppCompatActivity() {
     }
 
     private fun shareCrashReport(filePath: String) {
-        val url: String = findViewById<TextView>(R.id.url).text.toString()
-        val code: String = findViewById<TextView>(R.id.code).text.toString()
-        val postData: String = findViewById<TextView>(R.id.postData).text.toString()
-        val response: String = findViewById<TextView>(R.id.response).text.toString()
-
         val intent = Intent(Intent.ACTION_SEND)
         intent.type = "*/*"
         intent.putExtra(
             Intent.EXTRA_TEXT,
-            "url=${url}; code=${code}; postData=${postData}; body=${response}"
+            "url=${mHttpLog?.url}; code=${mHttpLog?.responseCode}; postData=${mHttpLog?.postData}; body=${mHttpLog?.responseData}"
         )
         val uriForFile =
             FileProvider.getUriForFile(this, "$packageName.fileprovider", File(filePath))

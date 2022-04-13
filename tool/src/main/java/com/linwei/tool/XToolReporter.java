@@ -71,7 +71,7 @@ public class XToolReporter {
                     })
                     .build();
             bubblesManager.initialize();
-        }else{
+        } else {
             enableAndzu();
         }
     }
@@ -134,13 +134,13 @@ public class XToolReporter {
         }
     };
 
-    public static  void enableAndzu() {
+    public static void enableAndzu() {
         if (isAndzuEnabled && bubbleView != null) {
             bubbleView.setVisibility(View.VISIBLE);
         }
     }
 
-    public static  void disableAndzu() {
+    public static void disableAndzu() {
         if (isAndzuEnabled && bubbleView != null) {
             bubbleView.setVisibility(View.GONE);
         }

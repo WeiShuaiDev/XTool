@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/white">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -26,7 +27,6 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#191919"
             android:orientation="vertical">
 
             <RelativeLayout
@@ -46,18 +46,20 @@
                     android:layout_alignParentTop="true"
                     android:layout_marginLeft="16dp"
                     android:layout_marginRight="16dp"
-                    android:textColor="@color/white"
-                    android:textSize="16dp"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
                     android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/code"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
+                    android:layout_marginEnd="8dp"
                     android:layout_marginRight="8dp"
-                    android:textColor="@color/white" />
+                    android:textColor="@color/black" />
 
                 <TextView
                     android:id="@+id/url"
@@ -66,22 +68,24 @@
                     android:layout_below="@id/date"
                     android:layout_marginLeft="16dp"
                     android:layout_marginRight="16dp"
-                    android:textColor="@color/white" />
+                    android:textColor="@color/black" />
 
                 <ImageView
                     android:id="@+id/code_img"
                     android:layout_width="5dp"
                     android:layout_height="25dp"
+                    android:layout_alignParentStart="true"
                     android:layout_alignParentLeft="true"
+                    android:layout_marginStart="8dp"
                     android:layout_marginLeft="8dp"
-                    android:background="@android:color/white" />
+                    android:background="@android:color/black" />
 
             </RelativeLayout>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/white" />
+                android:background="@color/gray" />
 
             <RelativeLayout
                 android:id="@+id/relative2"
@@ -101,8 +105,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
+                    android:layout_marginLeft="16dp"
                     android:text="Request latency : "
-                    android:textColor="@color/white"
+                    android:textColor="@color/black"
                     android:textSize="25sp" />
 
                 <TextView
@@ -111,8 +116,9 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_toEndOf="@+id/textView2"
+                    android:layout_toRightOf="@+id/textView2"
                     android:text="TextView"
-                    android:textColor="@color/white"
+                    android:textColor="@color/black"
                     android:textSize="25sp" />
 
             </RelativeLayout>
@@ -120,22 +126,23 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/white" />
+                android:background="@color/gray" />
 
             <TextView
                 android:id="@+id/textView3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
                 android:layout_marginTop="5dp"
                 android:text="Headers"
-                android:textColor="@color/white"
+                android:textColor="@color/black"
                 android:textSize="25sp" />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/white" />
+                android:background="@color/gray" />
 
             <TextView
                 android:id="@+id/headers"
@@ -144,29 +151,29 @@
                 android:layout_marginLeft="16dp"
                 android:layout_marginTop="5dp"
                 android:layout_marginRight="16dp"
-                android:text="asda"
-                android:textColor="@color/white"
+                android:textColor="@color/black"
                 android:textSize="16sp" />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/white" />
+                android:background="@color/gray" />
 
             <TextView
                 android:id="@+id/textView4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
                 android:layout_marginTop="5dp"
                 android:text="Http Post Data"
-                android:textColor="@color/white"
+                android:textColor="@color/black"
                 android:textSize="25sp" />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/white" />
+                android:background="@color/gray" />
 
             <TextView
                 android:id="@+id/postData"
@@ -175,30 +182,31 @@
                 android:layout_marginLeft="16dp"
                 android:layout_marginTop="5dp"
                 android:layout_marginRight="16dp"
-                android:text="asda"
-                android:textColor="@color/white"
+                android:textColor="@color/black"
                 android:textSize="16sp" />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/white" />
+                android:background="@color/gray" />
 
             <TextView
                 android:id="@+id/textView5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
                 android:layout_marginTop="5dp"
                 android:text="Body Response"
-                android:textColor="@color/white"
+                android:textColor="@color/black"
                 android:textSize="25sp" />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/white" />
+                android:background="@color/gray" />
 
+            <!--
             <TextView
                 android:id="@+id/response"
                 android:layout_width="match_parent"
@@ -206,7 +214,22 @@
                 android:layout_marginLeft="16dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginRight="16dp"
-                android:textColor="@color/white" />
+                android:textColor="@color/black" />
+            -->
+
+            <HorizontalScrollView
+                android:id="@+id/scrollView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fillViewport="true"
+                android:orientation="vertical">
+
+                <com.linwei.tool.view.JsonRecyclerView
+                    android:id="@+id/recyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </HorizontalScrollView>
 
         </LinearLayout>
 

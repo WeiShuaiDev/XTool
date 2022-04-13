@@ -9,7 +9,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.tabs.TabLayout
-import com.google.android.material.tabs.TabLayoutMediator
 import com.linwei.tool.R
 import com.linwei.tool.XToolReporter
 import com.linwei.tool.adapter.CrashViewPagerAdapter

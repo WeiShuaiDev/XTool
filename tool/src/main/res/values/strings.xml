@@ -13,4 +13,7 @@
     <string name="cancel">CANCEL</string>
     <string name="ok">OK</string>
     <string name="entry">数据为空啦~</string>
+
+    <string name="jsonViewer_icon_plus">expand</string>
+    <string name="jsonViewer_icon_minus">collapse</string>
 </resources>

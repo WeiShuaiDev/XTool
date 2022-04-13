@@ -45,7 +45,8 @@
         android:padding="5dp"
         android:textColor="#9c9999"
         android:textSize="13sp"
-        android:visibility="gone" />
+        android:visibility="gone"
+        android:layout_alignParentLeft="true" />
 
     <TextView
         android:id="@+id/textViewTime"
@@ -60,7 +61,8 @@
         android:padding="5dp"
         android:textColor="#9c9999"
         android:textSize="13sp"
-        android:visibility="gone" />
+        android:visibility="gone"
+        android:layout_alignParentRight="true" />
 
     <View
         android:layout_width="match_parent"

@@ -16,7 +16,7 @@ import com.linwei.tool.ui.network.HttpLogDetailsActivity
 import com.linwei.tool.utils.Constants
 import com.linwei.tool.utils.FileUtils
 import java.io.File
-import java.util.ArrayList
+import java.util.*
 
 class NetworkLogAdapter(private val context: Context, private var crashFileList: ArrayList<File>) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -60,7 +60,7 @@ class NetworkLogAdapter(private val context: Context, private var crashFileList:
                 val httpLog = Gson().fromJson(jsonData, HttpLog::class.java)
                 textViewTitle.text = httpLog.url
 
-                textViewTime.text = file.name.replace("[a-zA-Z_.]".toRegex(), "")
+                textViewTime.text = FileUtils.dateFormat.format(Date(httpLog.date))
                 textViewTime.visibility = View.VISIBLE
 
                 textViewTag.text = httpLog.requestType
@@ -79,7 +79,7 @@ class NetworkLogAdapter(private val context: Context, private var crashFileList:
                 val appLog = Gson().fromJson(jsonData, AppLog::class.java)
                 textViewTime.text = appLog.createdAt
                 textViewTitle.text = FileUtils.readFirstLineFromFile(File(filePath))
-                textViewTag.text=appLog.logType
+                textViewTag.text = appLog.logType
 
                 textViewMsg.visibility = View.GONE
                 textViewTag.visibility = View.VISIBLE
