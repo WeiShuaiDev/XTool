@@ -87,9 +87,9 @@ public class XToolReporter {
         bubbleView.setOnBubbleClickListener(bubble -> {
             if (!isAndzuActivated) {
                 isAndzuActivated = true;
-                Intent i = new Intent(context, ChooseModuleActivity.class);
-                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                context.startActivity(i);
+                Intent intent = new Intent(context, ChooseModuleActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(intent);
             }
         });
         bubbleView.setShouldStickToWall(false);
@@ -104,11 +104,6 @@ public class XToolReporter {
         @Override
         public void onActivityStarted(Activity activity) {
             enableAndzu();
-            if (activity instanceof ChooseModuleActivity||activity instanceof NetworkReporterActivity ||
-                    activity instanceof AppLogDetailsActivity||activity instanceof HttpLogDetailsActivity||
-                    activity instanceof LogMessageActivity||activity instanceof CrashReporterActivity) {
-                disableAndzu();
-            }
             if (activity instanceof ChooseModuleActivity) {
                 isAndzuActivated = true;
             }
@@ -117,16 +112,10 @@ public class XToolReporter {
         @Override
         public void onActivityResumed(Activity activity) {
             enableAndzu();
-            if (activity instanceof ChooseModuleActivity||activity instanceof NetworkReporterActivity ||
-                    activity instanceof AppLogDetailsActivity||activity instanceof HttpLogDetailsActivity||
-                    activity instanceof LogMessageActivity||activity instanceof CrashReporterActivity) {
-                disableAndzu();
-            }
         }
 
         @Override
         public void onActivityPaused(Activity activity) {
-            disableAndzu();
         }
 
         @Override

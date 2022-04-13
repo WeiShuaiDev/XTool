@@ -10,6 +10,7 @@ import android.view.MenuItem
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.viewpager.widget.ViewPager
 import androidx.viewpager2.widget.ViewPager2
 import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
 import com.linwei.tool.R
@@ -26,20 +27,12 @@ import java.io.File
 class NetworkReporterActivity: AppCompatActivity() {
     private lateinit var mToolbar: Toolbar
     private lateinit var mTab: TabLayout
-    private lateinit var mViewpager2: ViewPager2
+    private lateinit var mViewpager: ViewPager
 
     private var mViewPagerAdapter: NetworkViewPagerAdapter? = null
     private var mSelectedTabPosition = 0
 
-    private var mMediator: TabLayoutMediator? = null
-
-    private val mTitles = arrayOf(R.string.http, R.string.logs)
-
-    private val mActiveColor: Int = Color.parseColor("#FFFFFF")
-    private val mNormalColor: Int = Color.parseColor("#AAAAAA")
-
-    private val mActiveSize = 20f
-    private val mNormalSize = 16f
+    private var mOnPageChangeListener: ViewPager.OnPageChangeListener? = null
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.log_main_menu, menu)
@@ -66,11 +59,11 @@ class NetworkReporterActivity: AppCompatActivity() {
         setSupportActionBar(mToolbar)
 
         mTab = findViewById(R.id.tab)
-        mViewpager2 = findViewById(R.id.viewpager2)
+        mViewpager = findViewById(R.id.viewpager)
 
         setupViewPager()
 
-        setupTabLayout()
+        mTab.setupWithViewPager(mViewpager)
     }
 
     private fun clearCrashLog() {
@@ -86,58 +79,40 @@ class NetworkReporterActivity: AppCompatActivity() {
         }
     }
 
-    private fun setupTabLayout(){
-        mMediator = TabLayoutMediator(
-            mTab, mViewpager2
-        ) { tab, position -> //这里可以自定义TabView
-            val tabView = TextView(this)
-            val states = arrayOfNulls<IntArray>(2)
-            states[0] = intArrayOf(android.R.attr.state_selected)
-            states[1] = intArrayOf()
-            val colors = intArrayOf(mActiveColor, mNormalColor)
-            val colorStateList = ColorStateList(states, colors)
-            tabView.text = getString(mTitles.get(position))
-            tabView.textSize = mNormalSize
-            tabView.setTextColor(colorStateList)
-            tab.customView = tabView
+    override fun onDestroy() {
+        super.onDestroy()
+        mOnPageChangeListener?.let {
+            mViewpager.removeOnPageChangeListener(it)
         }
-        mMediator?.attach()
     }
 
-
     private fun setupViewPager() {
-        mViewPagerAdapter = NetworkViewPagerAdapter(this)
-        mViewpager2.adapter = mViewPagerAdapter
+        val mTitles = arrayOf(getString(R.string.http),getString(R.string.logs))
+        mViewPagerAdapter = NetworkViewPagerAdapter(supportFragmentManager,mTitles)
+        mViewpager.adapter = mViewPagerAdapter
         //viewPager 页面切换监听
-        mViewpager2.registerOnPageChangeCallback(changeCallback)
+        mOnPageChangeListener = object : ViewPager.OnPageChangeListener {
+            override fun onPageScrolled(
+                position: Int,
+                positionOffset: Float,
+                positionOffsetPixels: Int
+            ) {
+            }
+
+            override fun onPageSelected(position: Int) {
+                mSelectedTabPosition = position
+            }
+
+            override fun onPageScrollStateChanged(state: Int) {
+            }
+        }
+        mViewpager.addOnPageChangeListener(mOnPageChangeListener!!)
 
         val intent = intent
         if (intent != null && !intent.getBooleanExtra(Constants.LANDING, false)) {
             mSelectedTabPosition = 0
         }
-        mViewpager2.currentItem = mSelectedTabPosition
-    }
-
-
-    private val changeCallback: OnPageChangeCallback = object : OnPageChangeCallback() {
-        override fun onPageSelected(position: Int) {
-            mSelectedTabPosition = position
-            //可以来设置选中时tab的大小
-            val tabCount: Int = mTab.tabCount
-            for (i in 0 until tabCount) {
-                val tab: TabLayout.Tab? = mTab.getTabAt(i)
-                if (tab != null) {
-                    val tabView = tab.customView as TextView
-                    if (tab.position == position) {
-                        tabView.textSize = mActiveSize
-                        tabView.setTypeface(Typeface.DEFAULT_BOLD)
-                    } else {
-                        tabView.textSize = mNormalSize
-                        tabView.setTypeface(Typeface.DEFAULT)
-                    }
-                }
-            }
-        }
+        mViewpager.currentItem = mSelectedTabPosition
     }
 
     private fun getApplicationName(): String {
@@ -147,10 +122,4 @@ class NetworkReporterActivity: AppCompatActivity() {
             stringId
         )
     }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        mViewpager2.unregisterOnPageChangeCallback(changeCallback)
-    }
-
 }
