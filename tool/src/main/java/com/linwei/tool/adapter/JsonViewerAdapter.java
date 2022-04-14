@@ -2,6 +2,7 @@ package com.linwei.tool.adapter;
 
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
+import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,6 +33,9 @@ public class JsonViewerAdapter extends RecyclerView.Adapter<JsonViewerAdapter.Js
     private JSONArray mJSONArray;
 
     public JsonViewerAdapter(String jsonStr) {
+        if (TextUtils.isEmpty(jsonStr)) {
+            return;
+        }
 
         Object object = null;
         try {
@@ -39,9 +43,9 @@ public class JsonViewerAdapter extends RecyclerView.Adapter<JsonViewerAdapter.Js
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        if (object != null && object instanceof JSONObject) {
+        if (object instanceof JSONObject) {
             mJSONObject = (JSONObject) object;
-        } else if (object != null && object instanceof JSONArray) {
+        } else if (object instanceof JSONArray) {
             mJSONArray = (JSONArray) object;
         } else {
             throw new IllegalArgumentException("jsonStr is illegal.");

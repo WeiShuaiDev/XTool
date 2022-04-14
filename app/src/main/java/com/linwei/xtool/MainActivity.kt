@@ -64,8 +64,7 @@ class MainActivity : AppCompatActivity() {
             ThreadManager.runOnThread {
                 val request: okhttp3.Request = okhttp3.Request.Builder()
                     .url(
-                        "https://gist.githubusercontent.com/RIAEvangelist/63a5618119170384386e/" +
-                                "raw/600df29651d9e4fbffc3af98580a36bcc86e71c3/dominos-sample-request.json"
+                        "https://www.wanandroid.com/article/list/0/json"
                     )
                     .build()
 
