@@ -4,7 +4,7 @@ import android.annotation.SuppressLint
 import android.app.Application
 import android.content.Context
 
-class ReporterSampleApplication : Application() {
+class SampleApplication : Application() {
 
     companion object {
 

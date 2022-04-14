@@ -97,17 +97,17 @@ class MainActivity : AppCompatActivity() {
                     Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
                     Uri.parse("package:$packageName")
                 )
-                startActivityForResult(intent, 2084)
+                startActivityForResult(intent, 1)
             } else {
-                XToolReporter.initBubbles(ReporterSampleApplication.appContext)
+                XToolReporter.initBubbles(SampleApplication.appContext)
             }
         }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (requestCode == 2084) {
+        if (requestCode == 1) {
             if (resultCode == RESULT_OK) {
-                XToolReporter.initBubbles(ReporterSampleApplication.appContext)
+                XToolReporter.initBubbles(SampleApplication.appContext)
             } else { //Permission is not available
             }
         } else {
