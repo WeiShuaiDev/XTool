@@ -1,7 +1,4 @@
 # XTool使用说明
-
-![](./image/cover.png)
-
 ## 一、功能介绍
 
 🔥 🔥 🔥`App`错误日志、请求数据、`Log`信息抓取，同时每次触发错误，通过手机消息列表弹出，增加浮动按钮入口，作为`Tool`工具总入口。
@@ -119,6 +116,12 @@ dependencies {
        }
   }
   ```
+
+## 二、参考资料
+
+[In-App Android Debugging Tool With Enhanced Logging, Networking Info, Crash reporting And More.](https://github.com/isacan/Andzu)
+
+[CrashReporter is a handy tool to capture app crashes and save them in a file](https://github.com/MindorksOpenSource/CrashReporter)
 
 ## 赞赏
 
