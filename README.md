@@ -1,4 +1,5 @@
 # XTool使用说明
+![](https://github.com/WeiShuaiDev/XTool/blob/main/screenshots/cover.png)
 ## 一、功能介绍
 
 🔥 🔥 🔥`App`错误日志、请求数据、`Log`信息抓取，同时每次触发错误，通过手机消息列表弹出，增加浮动按钮入口，作为`Tool`工具总入口。
