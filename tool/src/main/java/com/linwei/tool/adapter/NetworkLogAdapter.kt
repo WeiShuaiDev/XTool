@@ -57,33 +57,34 @@ class NetworkLogAdapter(private val context: Context, private var crashFileList:
             val jsonData = FileUtils.readFromFile(file)
 
             if (filePath.contains(Constants.HTTP_SUFFIX)) {
-                val httpLog = Gson().fromJson(jsonData, HttpLog::class.java)
-                textViewTitle.text = httpLog.url
+                Gson().fromJson(jsonData, HttpLog::class.java)?.let {
+                    textViewTitle.text = it.url
 
-                textViewTime.text = FileUtils.dateFormat.format(Date(httpLog.date))
-                textViewTime.visibility = View.VISIBLE
+                    textViewTime.text = FileUtils.dateFormat.format(Date(it.date))
+                    textViewTime.visibility = View.VISIBLE
 
-                textViewTag.text = httpLog.requestType
+                    textViewTag.text = it.requestType
 
-                textViewTag.visibility = View.VISIBLE
-                textViewMsg.text = httpLog.postData
+                    textViewTag.visibility = View.VISIBLE
+                    textViewMsg.text = it.postData
 
-                state.visibility = View.VISIBLE
-                if ("200" == httpLog.responseCode) {
-                    state.setBackgroundResource(R.color.c_0c8918)
-                } else {
-                    state.setBackgroundResource(R.color.c_be002f)
+                    state.visibility = View.VISIBLE
+                    if ("200" == it.responseCode) {
+                        state.setBackgroundResource(R.color.c_0c8918)
+                    } else {
+                        state.setBackgroundResource(R.color.c_be002f)
+                    }
                 }
-
             } else {
-                val appLog = Gson().fromJson(jsonData, AppLog::class.java)
-                textViewTime.text = appLog.createdAt
-                textViewTitle.text = FileUtils.readFirstLineFromFile(File(filePath))
-                textViewTag.text = appLog.logType
+                Gson().fromJson(jsonData, AppLog::class.java)?.let{
+                    textViewTime.text = it.createdAt
+                    textViewTitle.text = FileUtils.readFirstLineFromFile(File(filePath))
+                    textViewTag.text = it.logType
 
-                textViewMsg.visibility = View.GONE
-                textViewTag.visibility = View.VISIBLE
-                textViewTime.visibility = View.VISIBLE
+                    textViewMsg.visibility = View.GONE
+                    textViewTag.visibility = View.VISIBLE
+                    textViewTime.visibility = View.VISIBLE
+                }
             }
 
             itemView.setOnClickListener {

@@ -35,7 +35,7 @@ class ClashHorizontalScrollView(context: Context, attrs: AttributeSet) :
                 yStart = yEnd
 
                 if (yDistance > xDistance) {
-                    parent.requestDisallowInterceptTouchEvent(false)
+                    parent?.requestDisallowInterceptTouchEvent(false)
                 }
             }
         }

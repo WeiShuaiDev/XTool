@@ -45,11 +45,12 @@ class CrashLogAdapter(private val context: Context, private var crashFileList: A
         fun setUpViewHolder(context: Context, file: File) {
             val filePath = file.absolutePath
             val jsonData = FileUtils.readFromFile(file)
-            val crashLog = Gson().fromJson(jsonData, CrashLog::class.java)
-            textViewTime.text = crashLog.createdAt
-            textViewTitle.text =crashLog.message
-            messageLogMsg.visibility = View.GONE
-            textViewTime.visibility = View.VISIBLE
+            Gson().fromJson(jsonData, CrashLog::class.java)?.let {
+                textViewTime.text = it.createdAt
+                textViewTitle.text =it.message
+                messageLogMsg.visibility = View.GONE
+                textViewTime.visibility = View.VISIBLE
+            }
             itemView.setOnClickListener {
                 val intent = Intent(context, LogMessageActivity::class.java)
                 intent.putExtra("LogMessage", filePath)
