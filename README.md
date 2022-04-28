@@ -1,8 +1,22 @@
 # XTool使用说明
+
 ![](https://github.com/WeiShuaiDev/XTool/blob/main/screenshots/cover.png)
+
 ## 一、功能介绍
 
 🔥 🔥 🔥`App`错误日志、请求数据、`Log`信息抓取，同时每次触发错误，通过手机消息列表弹出，增加浮动按钮入口，作为`Tool`工具总入口。
+<div>
+	<img src="https://github.com/WeiShuaiDev/XTool/blob/main/screenshots/screenshot_1.jpg" width=20%>
+	<img src="https://github.com/WeiShuaiDev/XTool/blob/main/screenshots/screenshot_2.jpg" width=20%>
+	<img src="https://github.com/WeiShuaiDev/XTool/blob/main/screenshots/screenshot_3.jpg" width=20%>  
+	<img src="https://github.com/WeiShuaiDev/XTool/blob/main/screenshots/screenshot_4.jpg" width=20%>  
+</div>
+<div>
+	<img src="https://github.com/WeiShuaiDev/XTool/blob/main/screenshots/screenshot_details_1.jpg" width=20%>
+	<img src="https://github.com/WeiShuaiDev/XTool/blob/main/screenshots/screenshot_details_2.jpg" width=20%>
+	<img src="https://github.com/WeiShuaiDev/XTool/blob/main/screenshots/screenshot_details_3.jpg" width=20%>  
+    <img src="https://github.com/WeiShuaiDev/XTool/blob/main/screenshots/screenshot_details_4.jpg" width=20%>  
+</div>
 
 ### 1、引用资源包
 
@@ -14,7 +28,8 @@ dependencies {
 
 ### 2、初始化流程(可以忽略这一步)
 
-默认工具库已经默认成功初始化，同时设置关闭消息通知栏，如果需要开启通知栏，可以在`Application#onCreate()`方法调用`XToolReporter.enableNotification()`
+默认工具库已经默认成功初始化，同时设置关闭消息通知栏，如果需要开启通知栏，可以在`Application#onCreate()`
+方法调用`XToolReporter.enableNotification()`
 
 - 加载资源库
 
@@ -70,7 +85,8 @@ dependencies {
 
 #### 4、数据查看入口接入
 
-- 获取悬浮按钮权限，并启动悬浮按钮，通过点击悬浮按钮跳转到`ChooseModuleActivity`界面。如果不需要悬浮按钮入口，可以直接跳转到`ChooseModuleActivity`,也不需要申请权限。
+- 获取悬浮按钮权限，并启动悬浮按钮，通过点击悬浮按钮跳转到`ChooseModuleActivity`界面。如果不需要悬浮按钮入口，可以直接跳转到`ChooseModuleActivity`
+  ,也不需要申请权限。
 
   ```
   override fun onCreate(savedInstanceState: Bundle?) {
